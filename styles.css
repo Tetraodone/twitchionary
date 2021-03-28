@@ -1,0 +1,78 @@
+html, body{
+    background:rgba(191, 91, 245, 0);
+    padding:0;
+    border:none;
+    margin:0;
+    
+}
+
+.button{
+  border: none;
+  color: #eb3d3d;
+  background:rgba(255, 255, 255, 0.9);
+  cursor:pointer;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 8px;
+  transition-duration: 0.4s;
+}
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+.button:hover {
+  background-color: rgba(0,0,0, 0.2); /* Green */
+  color: white;
+}
+
+#background{
+  background:#eb3d3d;
+  width:100%;
+  height:100vh;
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+  color:white;
+  font-size: 25px;
+}
+
+.solved div div button{
+  color:#3eed6c !important
+}
+
+.title{
+  width:100vw;
+  text-align: center;
+  padding-top:50px;
+  font-size:50px;
+  color:rgba(255, 255, 255, 0.7);
+}
+
+input[type=text],input[type=password]  {
+  border:none;
+  width: 40%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border-radius:10px;
+}
+
+.vertical-center {
+  width:100vw;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  text-align:center; 
+}
+
+.solved{
+  background: #3eed6c !important;
+}
+
