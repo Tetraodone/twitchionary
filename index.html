@@ -24,14 +24,23 @@
        </div>
       
       <div class="vertical-center">
-        <div v-if="!connected">
-          <input type="text" id="twitchAcc" name="twitchAcc" v-model="username" placeholder="Your Twitch Username">
+        <div v-if="!connected && !loading">
+          <input type="text" id="twitchAcc" name="twitchAcc" v-model="username" placeholder="Your Twitch Username" v-on:keyup.enter="connect"> 
           <br />
           <button class="button" type="button" v-on:click="connect">Connect</button>
         </div>
-  
+
+        <div v-if="loading">
+          Connecting...
+        </div>
+
         <div v-if="!gameReady && connected">
-          <input type="password" id="word" name="word" v-model="word" placeholder="Word to be guessed">
+          <input :type="showWord" id="word" name="word" v-model="word" placeholder="Word to be guessed" v-on:keyup.enter="startGame">
+          <button class="button" type="button" v-on:click="toggleWord">
+
+            <span v-if="showWord == 'password'">Show</span>
+            <span v-if="showWord == 'text'">Hide</span>
+          </button>
           <br />
           <button class="button" type="button" v-on:click="startGame" >Start Game</button>
         </div>

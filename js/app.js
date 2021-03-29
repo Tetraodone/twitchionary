@@ -16,7 +16,9 @@ var app = new Vue({
       gameReady: false,
       guessed: false,
       guessedUsername: "",
-      timeString: ""
+      timeString: "",
+      loading: false,
+      showWord: "password"
     },
     mounted() {
 
@@ -24,7 +26,7 @@ var app = new Vue({
     methods: {
       connect: function (){
         ComfyJS.Init( this.username );
-        this.connected = true
+        app.loading = true
       },
       startGame: function (){
         this.gameReady = true
@@ -34,14 +36,23 @@ var app = new Vue({
         this.gameReady = false
         this.guessed = false
         clearInterval(timer);
+      },
+      toggleWord: function(){
+        if(this.showWord == "password"){
+          this.showWord = "text"
+        } else {
+          this.showWord = "password"
+        }
       }
     }
 
   })
 
-// ComfyJS.onConnected = ( address, port, isFirstConnect ) => {
-//   app.chatboxContent.push("Connected to Chatbox!")
-// }
+
+ComfyJS.onConnected = ( address, port, isFirstConnect ) => {
+  app.loading = false
+  app.connected = true
+}
 var startTime;
 var elapsedTime;
 var timer;
