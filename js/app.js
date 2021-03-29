@@ -18,7 +18,8 @@ var app = new Vue({
       guessedUsername: "",
       timeString: "",
       loading: false,
-      showWord: "password"
+      showWord: "password",
+      guesses: []
     },
     mounted() {
 
@@ -44,6 +45,14 @@ var app = new Vue({
           this.showWord = "password"
         }
       }
+    },
+    computed: {
+      guessPos() {
+        return {
+          'top': getRandomInt(20, 80) + '%',
+          'left': getRandomInt(20, 80) + '%'
+        }
+      }
     }
 
   })
@@ -56,6 +65,21 @@ ComfyJS.onConnected = ( address, port, isFirstConnect ) => {
 var startTime;
 var elapsedTime;
 var timer;
+
+function guessPos() {
+
+  var top = getRandomInt(20, 80)
+  var left = getRandomInt(20, 80)
+  do{
+    top = getRandomInt(20, 80)
+    left = getRandomInt(20, 80)
+  }while((top > 45 && top < 55) || (left > 45 && left < 55))
+
+  return {
+    'top': top + '%',
+    'left': left + '%'
+  }
+}
 
 function startTimer(){
   startTime = Date.now();
@@ -71,16 +95,34 @@ ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
     if(!app.gameReady){
       console.log("But the game is not started")
     } else {
-      if((message.toLowerCase() == app.word.toLowerCase()) && (guessed = false)){
+
+      if((message.toLowerCase() == app.word.toLowerCase()) && (app.guessed == false)){
         console.log( `${user} guessed ${message} correctly!` );
         app.guessed = true;
         app.guessedUsername = user
         clearInterval(timer);
       } else {
+
         console.log( `${user} guessed ${message}` );
+
+        app.guesses.push({
+          text: message, 
+          position: guessPos()
+        })
+
+
+        setTimeout(function(){
+          app.guesses.shift();
+      }, 4000);
       }
     }
   }
+}
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function timeToString(time) {

@@ -18,7 +18,7 @@
 
     <div id="app">
       
-     <div id="background" v-bind:class="{ solved: guessed }">
+     <div id="background" v-bind:class="{ solved: guessed, unsolved: gameReady }">
        <div class="title">
         Twitchionary
        </div>
@@ -48,6 +48,14 @@
         <div v-if="gameReady && !guessed">
           {{timeString}} <br /> <br />
           <button class="button" type="button" v-on:click="nextGame">New Word</button>
+          <br /><br />
+          <div id="guesses">
+            <div v-for="guess in guesses" class='tracking-in-expand-fwd guess' :style="guess.position">
+              {{guess.text}}
+            </div>
+          </div>
+
+
         </div>
   
         
@@ -57,6 +65,20 @@
           <br />
           <button class="button" type="button" v-on:click="nextGame">Next Game</button>
         </div>
+      </div>
+
+      <div id="footer">
+        <div class="fi">
+          A Twitch Pictionary Chat Bot
+        </div>
+        -
+        <div class="fi">
+          Tetraodone
+        </div>
+        <!-- -
+        <div class="fi">
+          How To
+        </div> -->
       </div>
 
      </div>
