@@ -60,7 +60,7 @@ ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
     if(!app.gameReady){
       console.log("But the game is not started")
     } else {
-      if(message.toLowerCase() == app.word.toLowerCase()){
+      if((message.toLowerCase() == app.word.toLowerCase()) && (guessed = false)){
         console.log( `${user} guessed ${message} correctly!` );
         app.guessed = true;
         app.guessedUsername = user
