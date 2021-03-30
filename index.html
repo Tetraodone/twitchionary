@@ -41,7 +41,12 @@
             <span v-if="showWord == 'password'">Show</span>
             <span v-if="showWord == 'text'">Hide</span>
           </button>
-          <br />
+          <br /><br />
+          Or choose a prompt:<br/><br />
+          <button class="button" type="button" v-on:click="usePrompt('animals')" >Animals</button>
+          <button class="button" type="button" v-on:click="usePrompt('objects')" >Objects</button>
+          <button class="button" type="button" v-on:click="usePrompt('actions')" >Actions</button>
+          <br /><br />
           <button class="button" type="button" v-on:click="startGame" >Start Game</button>
         </div>
 
@@ -69,16 +74,18 @@
 
       <div id="footer">
         <div class="fi">
-          A Twitch Pictionary Chat Bot
+          Twitch Pictionary ChatBot
         </div>
         -
         <div class="fi">
           Tetraodone
         </div>
-        <!-- -
-        <div class="fi">
-          How To
-        </div> -->
+        <span v-if="connected">
+          -
+          <div class="fi">
+            Connected to {{username}}
+          </div>
+        </span>
       </div>
 
      </div>

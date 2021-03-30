@@ -6,6 +6,12 @@ var foundClips = false
 var broadcast_name
 var str
 
+var prompts = {
+  animals: ["pig", "cat", "mouse", "unicorn", "elephant", "tiger", "dinosaur", "eagle", "clownfish", "pufferfish", "crab", "mouse", "rat", "worm", "monkey", "baby", "whale", "ant"],
+  objects: ["door", "pen", "desk", "glass", "phone", "cowbell", "tent", "tower", "keyboard", "car", "bike", "bicycle", "credit card", "bag", "switch", "lamp", "dresser", "mirror"],
+  actions: ["running", "writing", "sketching", "driving", "burning", "petting", "building", "looking", "cleaning", "sleeping"]
+}
+
 
 var app = new Vue({
     el: '#app',
@@ -19,7 +25,8 @@ var app = new Vue({
       timeString: "",
       loading: false,
       showWord: "password",
-      guesses: []
+      guesses: [],
+      usedPrompts: []
     },
     mounted() {
 
@@ -30,8 +37,13 @@ var app = new Vue({
         app.loading = true
       },
       startGame: function (){
-        this.gameReady = true
-        startTimer()
+        if(this.word != ""){
+          this.gameReady = true
+          startTimer()
+        } else {
+          alert("You must choose a word first!")
+        }
+        
       },
       nextGame: function (){
         this.gameReady = false
@@ -44,6 +56,13 @@ var app = new Vue({
         } else {
           this.showWord = "password"
         }
+      },
+      usePrompt: function (prompt){
+        var index = getRandomInt(0, prompts[prompt].length)
+        do{
+          index = getRandomInt(0, prompts[prompt].length)
+        }while(this.usedPrompts.includes(prompts[prompt][index]))
+        this.word = prompts[prompt][index]
       }
     },
     computed: {
@@ -56,6 +75,7 @@ var app = new Vue({
     }
 
   })
+
 
 
 ComfyJS.onConnected = ( address, port, isFirstConnect ) => {
@@ -96,11 +116,13 @@ ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
       console.log("But the game is not started")
     } else {
 
-      if((message.toLowerCase() == app.word.toLowerCase()) && (app.guessed == false)){
+      if((simplify(message) == simplify(app.word)) && (app.guessed == false)){
+
         console.log( `${user} guessed ${message} correctly!` );
         app.guessed = true;
         app.guessedUsername = user
         clearInterval(timer);
+
       } else {
 
         console.log( `${user} guessed ${message}` );
@@ -117,6 +139,12 @@ ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
       }
     }
   }
+}
+
+function simplify(str){
+  var newStr = str.toLowerCase()
+  newStr = newStr.replace(' ', '')
+  return newStr
 }
 
 function getRandomInt(min, max) {
